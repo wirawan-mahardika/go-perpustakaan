@@ -1,0 +1,17 @@
+# File binary hasil kompilasi
+/bin/
+/main
+
+# File konfigurasi lokal
+/config/config.json
+
+# Folder cache Go
+/go.sum
+/go.mod
+/vendor/
+
+# File log atau temporary files
+/log/
+/temp/
+
+/others/
