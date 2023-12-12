@@ -19,6 +19,7 @@ func main() {
 
 	router := httprouter.New()
 	router.GET(apiPathStart+"/buku", bukuController.FindAllOrSearch)
+	router.GET(apiPathStart+"/buku/:id_buku", bukuController.FindById)
 
 	server := http.Server{
 		Addr:    "localhost:1000",

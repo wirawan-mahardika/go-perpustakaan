@@ -10,6 +10,7 @@ import (
 
 type BukuService interface {
 	FindAllOrSearch(ctx context.Context, request web.RequestBukuFindAll) []web.ResponseBukuFindAll
+	FindById(ctx context.Context, request web.RequestBukuFindById) web.ResponseBukuFindById
 }
 
 func NewBukuService(db *gorm.DB) BukuService {
@@ -35,5 +36,15 @@ func (service *bukuServiceImpl) FindAllOrSearch(ctx context.Context, request web
 	if len(responseBuku) < 1 {
 		panic("Buku tidak ditemukan")
 	}
+	return responseBuku
+}
+
+func (service *bukuServiceImpl) FindById(ctx context.Context, request web.RequestBukuFindById) web.ResponseBukuFindById {
+	responseBuku := web.ResponseBukuFindById{}
+	err := service.db.Model(&domain.Buku{}).Take(&responseBuku, "id_buku = ?", request.Id).Error
+	if err != nil {
+		panic(err)
+	}
+
 	return responseBuku
 }
