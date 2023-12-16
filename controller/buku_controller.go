@@ -13,6 +13,7 @@ import (
 type BukuController interface {
 	FindAllOrSearch(w http.ResponseWriter, r *http.Request, p httprouter.Params)
 	FindById(w http.ResponseWriter, r *http.Request, p httprouter.Params)
+	Insert(w http.ResponseWriter, r *http.Request, p httprouter.Params)
 }
 
 func NewBukuController(service service.BukuService) BukuController {
@@ -58,6 +59,27 @@ func (controller *bukuControllerImpl) FindById(w http.ResponseWriter, r *http.Re
 	w.Header().Set("Content-Type", "application/json")
 	encoder := json.NewEncoder(w)
 	err = encoder.Encode(webResponse)
+	if err != nil {
+		panic(err)
+	}
+}
+
+func (controller *bukuControllerImpl) Insert(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
+	request := web.RequestBukuInsert{}
+	decoder := json.NewDecoder(r.Body)
+	err := decoder.Decode(&request)
+	if err != nil {
+		panic(err)
+	}
+
+	controller.service.Insert(r.Context(), request)
+	w.Header().Add("Content-Type", "application/json")
+	encoder := json.NewEncoder(w)
+	err = encoder.Encode(web.WebResponse{
+		Code:    200,
+		Message: "Berhasil menambah buku baru",
+		Data:    nil,
+	})
 	if err != nil {
 		panic(err)
 	}

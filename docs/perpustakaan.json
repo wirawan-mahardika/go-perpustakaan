@@ -1,0 +1,47 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Perpustakaan RESTful API",
+        "version": "1.0.0",
+        "contact": {}
+    },
+    "paths": {
+        "/api/v1/buku": {
+            "get": {
+                "tags": ["buku"],
+                "summary": "Mengambil atau mencari buku",
+                "responses": {
+                    "200": {
+                        "description": "Berhasil mengambil buku",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/web-response"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "web-response": {
+                "type": "object",
+                "properties": {
+                    "code": {
+                        "type": "integer"
+                    },
+                    "message": {
+                        "type": "string"
+                    },
+                    "data": {
+                        "type": "object",
+                        "description": "bisa semua data type"
+                    }
+                }
+            }
+        }
+    }
+}

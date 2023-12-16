@@ -4,15 +4,14 @@ import (
 	"net/http"
 	"perpustakaan/app"
 	"perpustakaan/controller"
-	exception "perpustakaan/error"
+	// exception "perpustakaan/error"
 	"perpustakaan/service"
 
 	"github.com/julienschmidt/httprouter"
 )
 
-var apiPathStart = "/api/v1"
-
 func main() {
+	var apiPathStart = "/api/v1"
 	db := app.ConnectDB()
 
 	bukuService := service.NewBukuService(db)
@@ -21,8 +20,9 @@ func main() {
 	router := httprouter.New()
 	router.GET(apiPathStart+"/buku", bukuController.FindAllOrSearch)
 	router.GET(apiPathStart+"/buku/:id_buku", bukuController.FindById)
+	router.POST(apiPathStart+"/buku", bukuController.Insert)
 
-	router.PanicHandler = exception.ErrorHandler
+	// router.PanicHandler = exception.ErrorHandler
 
 	server := http.Server{
 		Addr:    "localhost:1000",

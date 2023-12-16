@@ -11,6 +11,7 @@ import (
 type BukuService interface {
 	FindAllOrSearch(ctx context.Context, request web.RequestBukuFindAll) []web.ResponseBukuFindAll
 	FindById(ctx context.Context, request web.RequestBukuFindById) web.ResponseBukuFindById
+	Insert(ctx context.Context, request web.RequestBukuInsert)
 }
 
 func NewBukuService(db *gorm.DB) BukuService {
@@ -47,4 +48,11 @@ func (service *bukuServiceImpl) FindById(ctx context.Context, request web.Reques
 	}
 
 	return responseBuku
+}
+
+func (service *bukuServiceImpl) Insert(ctx context.Context, request web.RequestBukuInsert) {
+	err := service.db.Omit("id_buku", "created_at", "updated_at").Model(&domain.Buku{}).Create(&request).Error
+	if err != nil {
+		panic(err)
+	}
 }

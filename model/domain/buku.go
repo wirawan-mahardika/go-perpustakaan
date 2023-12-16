@@ -1,21 +1,18 @@
 package domain
 
 import (
-	"database/sql"
-
-	"gorm.io/gorm"
+	"time"
 )
 
 type Buku struct {
-	IdBuku      int             `json:"id_buku" gorm:"column:id_buku;primaryKey;autoIncrement"`
-	Judul       string          `json:"judul"`
-	Penulis     sql.NullString  `json:"penulis"`
-	Bahasa      sql.NullString  `json:"bahasa"`
-	Genre       sql.NullString  `json:"genre"`
-	Rating      sql.NullFloat64 `json:"rating"`
-	Penerbit    sql.NullString  `json:"penerbit"`
-	Description sql.NullString  `json:"description"`
-	CreatedAt   sql.NullTime    `json:"created_at" gorm:"autoCreateTime;"`
-	UpdatedAt   sql.NullTime    `json:"updated_at" gorm:"autoCreateTime;autoUpdateTime;"`
-	DeletedAt   *gorm.DeletedAt `json:"deleted_at" gorm:"autoUpdateTime;->:false"`
+	IdBuku      int       `gorm:"column:id_buku;primaryKey;autoIncrement;"`
+	Judul       string    `gorm:"column:judul;default:null"`
+	Penulis     string    `gorm:"column:penulis;default:null"`
+	Bahasa      string    `gorm:"column:bahasa;default:null"`
+	Genre       string    `gorm:"column:genre;default:null"`
+	Rating      string    `gorm:"column:rating;default:null"`
+	Penerbit    string    `gorm:"column:penerbit;default:null"`
+	Description string    `gorm:"column:description;default:null"`
+	CreatedAt   time.Time `gorm:"autoCreateTime;"`
+	UpdatedAt   time.Time `gorm:"autoCreateTime;autoUpdateTime;"`
 }
