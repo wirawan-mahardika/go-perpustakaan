@@ -1,5 +1,5 @@
 {
-    "openapi": "3.0.0",
+    "openapi": "3.0.3",
     "info": {
         "title": "Perpustakaan RESTful API",
         "version": "1.0.0",
@@ -22,7 +22,178 @@
                         }
                     }
                 }
+            },
+            "post": {
+                "tags": ["buku"],
+                "summary": "menambah buku",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "judul": {
+                                        "type": "string"
+                                    },
+                                    "penulis": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "bahasa": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "rating": {
+                                        "type": "number",
+                                        "nullable": true
+                                    },
+                                    "genre": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "penerbit": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "nullable": true
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Berhasil menambah buku baru",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/web-response"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Gagal menambah buku baru",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/web-response"
+                                }
+                            }
+                        }
+                    }
+                }
             }
+        },
+        "/api/v1/buku/{id_buku}": {
+            "get": {
+                "tags": ["buku"],
+                "summary": "mengambil buku by id",
+                "parameters": [{
+                    "name": "id_buku",
+                    "in": "path",
+                    "schema": {"type": "integer"},
+                    "required": true
+                }],
+                "responses": {
+                    "200": {
+                        "description": "berhasil mengambil buku berdasarkan id",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/web-response"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": ["buku"],
+                "summary": "menghapus buku by id",
+                "parameters": [{
+                    "name": "id_buku",
+                    "in": "path",
+                    "schema": {"type": "number"},
+                    "required": true
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Berhasil menghapus buku",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/web-response"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags": ["buku"],
+                "summary": "mengupdate buku by id",
+                "parameters": [{
+                    "name": "id_buku",
+                    "in": "path",
+                    "schema": {"type": "number"},
+                    "required": true
+                }],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                               "type": "object",
+                               "properties": {
+                                "judul": {
+                                    "type": "string"
+                                },
+                                "penulis": {
+                                    "type": "string",
+                                    "nullable": true
+                                },
+                                "bahasa": {
+                                    "type": "string",
+                                    "nullable": true
+                                },
+                                "rating": {
+                                    "type": "number",
+                                    "nullable": true
+                                },
+                                "genre": {
+                                    "type": "string",
+                                    "nullable": true
+                                },
+                                "penerbit": {
+                                    "type": "string",
+                                    "nullable": true
+                                },
+                                "description": {
+                                    "type": "string",
+                                    "nullable": true
+                                }
+                               } 
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Berhasil mengupdate buku",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/web-response"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            
         }
     },
     "components": {
