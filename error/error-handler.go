@@ -16,13 +16,13 @@ func ErrorHandler(w http.ResponseWriter, r *http.Request, i interface{}) {
 }
 
 func notFound(w http.ResponseWriter, r *http.Request, i interface{}) bool {
-	message, ok := i.(NotFound)
+	data, ok := i.(NotFound)
 	if ok {
 		w.Header().Set("Content-Type", "application/json")
 		response := web.WebResponse{
 			Code:    404,
 			Message: "NOT FOUND",
-			Data:    message,
+			Data:    data.Message,
 		}
 
 		encoder := json.NewEncoder(w)

@@ -3,12 +3,21 @@
     "info": {
         "title": "Perpustakaan RESTful API",
         "version": "1.0.0",
-        "contact": {}
+        "contact": {
+            "name": "wirawan mahardika",
+            "email": "wirawanmahardika10@gmail.com"
+        }
     },
+    "servers": [{
+        "url": "http://localhost:1000"
+    }],
     "paths": {
         "/api/v1/buku": {
             "get": {
                 "tags": ["buku"],
+                "security": [
+                    {"ApiKey": []}
+                ],
                 "summary": "Mengambil atau mencari buku",
                 "responses": {
                     "200": {
@@ -213,6 +222,16 @@
                     }
                 }
             }
+        },
+        "securitySchemes": {
+            "ApiKey": {
+                "name": "key",
+                "in": "query",
+                "type": "apiKey"
+            }
         }
-    }
+    },
+    "security": [
+        {"ApiKey": []}
+    ]
 }

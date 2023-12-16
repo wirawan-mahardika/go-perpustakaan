@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"perpustakaan/app"
 	"perpustakaan/controller"
-	// exception "perpustakaan/error"
+	exception "perpustakaan/error"
 	"perpustakaan/service"
 
 	"github.com/julienschmidt/httprouter"
@@ -18,11 +18,11 @@ func main() {
 	bukuController := controller.NewBukuController(bukuService)
 
 	router := httprouter.New()
+	router.PanicHandler = exception.ErrorHandler
 	router.GET(apiPathStart+"/buku", bukuController.FindAllOrSearch)
 	router.GET(apiPathStart+"/buku/:id_buku", bukuController.FindById)
 	router.POST(apiPathStart+"/buku", bukuController.Insert)
-
-	// router.PanicHandler = exception.ErrorHandler
+	router.PATCH(apiPathStart+"/buku/:id_buku", bukuController.Update)
 
 	server := http.Server{
 		Addr:    "localhost:1000",

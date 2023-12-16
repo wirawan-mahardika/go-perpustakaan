@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	exception "perpustakaan/error"
 	"perpustakaan/model/domain"
 	"perpustakaan/model/web"
 
@@ -12,6 +13,7 @@ type BukuService interface {
 	FindAllOrSearch(ctx context.Context, request web.RequestBukuFindAll) []web.ResponseBukuFindAll
 	FindById(ctx context.Context, request web.RequestBukuFindById) web.ResponseBukuFindById
 	Insert(ctx context.Context, request web.RequestBukuInsert)
+	Update(ctx context.Context, request web.RequestBukuUpdate)
 }
 
 func NewBukuService(db *gorm.DB) BukuService {
@@ -35,16 +37,17 @@ func (service *bukuServiceImpl) FindAllOrSearch(ctx context.Context, request web
 	}
 
 	if len(responseBuku) < 1 {
-		panic("Buku tidak ditemukan")
+		panic(exception.NotFound{Message: "Buku tidak ditemukan"})
 	}
 	return responseBuku
 }
 
 func (service *bukuServiceImpl) FindById(ctx context.Context, request web.RequestBukuFindById) web.ResponseBukuFindById {
 	responseBuku := web.ResponseBukuFindById{}
-	err := service.db.Model(&domain.Buku{}).Take(&responseBuku, "id_buku = ?", request.Id).Error
-	if err != nil {
-		panic(err)
+	result := service.db.Model(&domain.Buku{}).Take(&responseBuku, "id_buku = ?", request.Id)
+
+	if result.RowsAffected == 0 {
+		panic(exception.NotFound{Message: "Buku tidak ditemukan"})
 	}
 
 	return responseBuku
@@ -52,6 +55,13 @@ func (service *bukuServiceImpl) FindById(ctx context.Context, request web.Reques
 
 func (service *bukuServiceImpl) Insert(ctx context.Context, request web.RequestBukuInsert) {
 	err := service.db.Omit("id_buku", "created_at", "updated_at").Model(&domain.Buku{}).Create(&request).Error
+	if err != nil {
+		panic(err)
+	}
+}
+
+func (service *bukuServiceImpl) Update(ctx context.Context, request web.RequestBukuUpdate) {
+	err := service.db.Model(&domain.Buku{}).Omit("id_buku").Where("id_buku = ?", request.IdBuku).Updates(&request).Error
 	if err != nil {
 		panic(err)
 	}
