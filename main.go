@@ -23,6 +23,7 @@ func main() {
 	router.GET(apiPathStart+"/buku/:id_buku", bukuController.FindById)
 	router.POST(apiPathStart+"/buku", bukuController.Insert)
 	router.PATCH(apiPathStart+"/buku/:id_buku", bukuController.Update)
+	router.DELETE(apiPathStart+"/buku/:id_buku", bukuController.Delete)
 
 	server := http.Server{
 		Addr:    "localhost:1000",

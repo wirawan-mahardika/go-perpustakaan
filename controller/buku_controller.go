@@ -15,6 +15,7 @@ type BukuController interface {
 	FindById(w http.ResponseWriter, r *http.Request, p httprouter.Params)
 	Insert(w http.ResponseWriter, r *http.Request, p httprouter.Params)
 	Update(w http.ResponseWriter, r *http.Request, p httprouter.Params)
+	Delete(w http.ResponseWriter, r *http.Request, p httprouter.Params)
 }
 
 func NewBukuController(service service.BukuService) BukuController {
@@ -106,6 +107,26 @@ func (controller *bukuControllerImpl) Update(w http.ResponseWriter, r *http.Requ
 	err = encoder.Encode(web.WebResponse{
 		Code:    200,
 		Message: "Berhasil update buku",
+		Data:    nil,
+	})
+	if err != nil {
+		panic(err)
+	}
+}
+
+func (controller *bukuControllerImpl) Delete(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
+	idBuku, err := strconv.Atoi(p.ByName("id_buku"))
+	if err != nil {
+		panic(err)
+	}
+
+	controller.service.Delete(r.Context(), web.RequestBukuDelete{Id: idBuku})
+
+	w.Header().Add("Content-Type", "application/json")
+	encoder := json.NewEncoder(w)
+	err = encoder.Encode(web.WebResponse{
+		Code:    200,
+		Message: "Berhasil menghapus buku",
 		Data:    nil,
 	})
 	if err != nil {

@@ -5,6 +5,7 @@ import (
 	exception "perpustakaan/error"
 	"perpustakaan/model/domain"
 	"perpustakaan/model/web"
+	"strconv"
 
 	"gorm.io/gorm"
 )
@@ -14,6 +15,7 @@ type BukuService interface {
 	FindById(ctx context.Context, request web.RequestBukuFindById) web.ResponseBukuFindById
 	Insert(ctx context.Context, request web.RequestBukuInsert)
 	Update(ctx context.Context, request web.RequestBukuUpdate)
+	Delete(ctx context.Context, request web.RequestBukuDelete)
 }
 
 func NewBukuService(db *gorm.DB) BukuService {
@@ -64,5 +66,12 @@ func (service *bukuServiceImpl) Update(ctx context.Context, request web.RequestB
 	err := service.db.Model(&domain.Buku{}).Omit("id_buku").Where("id_buku = ?", request.IdBuku).Updates(&request).Error
 	if err != nil {
 		panic(err)
+	}
+}
+
+func (service *bukuServiceImpl) Delete(ctx context.Context, request web.RequestBukuDelete) {
+	result := service.db.Model(&domain.Buku{}).Delete("id_buku", request.Id)
+	if result.RowsAffected == 0 {
+		panic(exception.NotFound{Message: "Buku dengan id " + strconv.Itoa(request.Id) + " tidak di temukan"})
 	}
 }
