@@ -226,7 +226,7 @@
         "securitySchemes": {
             "ApiKey": {
                 "name": "key",
-                "in": "query",
+                "in": "header",
                 "type": "apiKey"
             }
         }
