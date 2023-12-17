@@ -8,11 +8,38 @@ import (
 )
 
 func ErrorHandler(w http.ResponseWriter, r *http.Request, i interface{}) {
+	if unauthorize(w, r, i) {
+		return
+	}
+
 	if notFound(w, r, i) {
 		return
 	}
 
 	internalServerError(w, r, i)
+}
+
+func unauthorize(w http.ResponseWriter, r *http.Request, i interface{}) bool {
+	data, ok := i.(Unauthorize)
+
+	if ok {
+		w.Header().Set("Content-Type", "application/json")
+		response := web.WebResponse{
+			Code:    401,
+			Message: "UNAUTHORIZE",
+			Data:    data.Message,
+		}
+
+		encoder := json.NewEncoder(w)
+		err := encoder.Encode(response)
+		if err != nil {
+			panic(err)
+		}
+
+		return true
+	} else {
+		return false
+	}
 }
 
 func notFound(w http.ResponseWriter, r *http.Request, i interface{}) bool {

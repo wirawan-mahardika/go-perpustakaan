@@ -5,6 +5,7 @@ import (
 	"perpustakaan/app"
 	"perpustakaan/controller"
 	exception "perpustakaan/error"
+	"perpustakaan/middleware"
 	"perpustakaan/service"
 
 	"github.com/julienschmidt/httprouter"
@@ -25,9 +26,11 @@ func main() {
 	router.PATCH(apiPathStart+"/buku/:id_buku", bukuController.Update)
 	router.DELETE(apiPathStart+"/buku/:id_buku", bukuController.Delete)
 
+	AuthMiddleware := &middleware.AuthMiddleware{Handler: router}
+
 	server := http.Server{
 		Addr:    "localhost:1000",
-		Handler: router,
+		Handler: AuthMiddleware,
 	}
 
 	err := server.ListenAndServe()
