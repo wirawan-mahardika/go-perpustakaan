@@ -1,0 +1,131 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Perpustakaan RESTful API",
+        "version": "1.0.0",
+        "contact": {
+            "name": "wirawan mahardika",
+            "email": "wirawanmahardika10@gmail.com"
+        }
+    },
+    "servers": [{
+        "url": "http://localhost:1000"
+    }],
+    "paths": {
+        "/api/v1/buku": {
+            "get": {
+                "tags": ["buku"],
+                "summary": "Mengambil atau mencari buku",
+                "responses": {
+                    "200": {
+                        "description": "Berhasil mengambil buku",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/web-response"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "404": {
+                        "description": "Buku tidak ditemukan",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/web-response"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/500"
+                    }
+                }
+            }
+        },
+        "/api/v1/buku/{id_buku}": {
+            "get": {
+                "tags": ["buku"],
+                "summary": "mengambil buku by id",
+                "parameters": [{
+                    "name": "id_buku",
+                    "in": "path",
+                    "schema": {"type": "integer"},
+                    "required": true
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Berhasil mengambil buku berdasarkan id",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/web-response"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "404": {
+                        "description": "Buku tidak ditemukan",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/web-response"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/500"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "web-response": {
+                "type": "object",
+                "properties": {
+                    "code": {
+                        "type": "integer"
+                    },
+                    "message": {
+                        "type": "string"
+                    },
+                    "data": {
+                        "type": "object",
+                        "description": "bisa semua data type"
+                    }
+                }
+            }
+        },
+        "responses": {
+            "401": {
+                "description": "Permintaan tidak diizinkan",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/web-response"
+                        }
+                    }
+                }
+            },
+            "500": {
+                "description": "Server Web Bermasalah",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/web-response"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -29,6 +29,22 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
+                    "404": {
+                        "description": "Buku tidak ditemukan",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/web-response"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/500"
                     }
                 }
             },
@@ -84,6 +100,9 @@
                             }
                         }
                     },
+                    "401": {
+                        "$ref": "#/components/responses/401"
+                    },
                     "400": {
                         "description": "Gagal menambah buku baru",
                         "content": {
@@ -93,6 +112,9 @@
                                 }
                             }
                         }
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/500"
                     }
                 }
             }
@@ -117,6 +139,9 @@
                                 }
                             }
                         }
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/500"
                     }
                 }
             },
@@ -139,6 +164,9 @@
                                 }
                             }
                         }
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/500"
                     }
                 }
             },
@@ -199,6 +227,9 @@
                                 }
                             }
                         }
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/500"
                     }
                 }
             }
@@ -228,6 +259,28 @@
                 "name": "key",
                 "in": "header",
                 "type": "apiKey"
+            }
+        },
+        "responses": {
+            "401": {
+                "description": "Permintaan tidak diizinkan",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/web-response"
+                        }
+                    }
+                }
+            },
+            "500": {
+                "description": "Server Web Bermasalah",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/web-response"
+                        }
+                    }
+                }
             }
         }
     },
